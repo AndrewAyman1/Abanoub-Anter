@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول — مستر أبانوب عنتر</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #080c14;
+            --card: #111827;
+            --input-bg: #353945;
+            --text: #ffffff;
+            --muted: #8b92a5;
+            --gold: #f1cc19;
+            --red: #f03e3e;
+            --cyan: #00d4ff;
+            --radius: 12px;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            font-family: 'Cairo', sans-serif;
+            color: var(--text);
+            direction: rtl;
+            overflow: hidden;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* ─── PAGE ─── */
+        .page {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ─── AMBIENT BACKGROUND ORBS ─── */
+        .section-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(70px);
+            opacity: 0.35;
+            will-change: transform;
+        }
+
+        .section-orb-one {
+            width: 380px;
+            height: 380px;
+            top: -120px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.55), transparent 70%);
+            animation: orbFloat 9s ease-in-out infinite alternate;
+        }
+
+        .section-orb-two {
+            width: 420px;
+            height: 420px;
+            bottom: -140px;
+            right: -120px;
+            background: radial-gradient(circle, rgba(241, 204, 25, 0.45), transparent 70%);
+            animation: orbFloat 11s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(24px, -18px) scale(1.08);
+            }
+        }
+
+        /* ─── CONTAINER ─── */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            max-height: calc(100vh - 48px);
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            direction: ltr;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ═══════════════ IMAGE PANEL ═══════════════ */
+        .img-panel {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 0;
+            height: 100%;
+            overflow: hidden;
+            border-radius: var(--radius);
+            background: var(--card);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            background-image: url("Screenshot_20260905-225545.jpg");
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+        }
+
+        /* ─── OVERLAY (bottom brand block) ─── */
+        .img-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            background: linear-gradient(to top,
+                    rgba(6, 9, 18, 0.96) 0%,
+                    rgba(6, 9, 18, 0.72) 55%,
+                    transparent 100%);
+            padding: 0 0 28px;
+        }
+
+        /* ─── NEON ZIGZAG CANVAS ─── */
+        .neon-zig {
+            display: block;
+            width: 100%;
+            height: 58px;
+            margin-bottom: 16px;
+        }
+
+        /* ─── NAME TEXT ─── */
+        .name-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0 28px;
+            direction: ltr;
+        }
+
+        .name-mr {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: rgba(241, 204, 25, 0.70);
+            margin-bottom: 0px;
+            animation: nameIn 0.7s ease 0.1s both;
+        }
+
+        .name-first {
+            font-size: clamp(40px, 5.8vw, 68px);
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #ffffff;
+            line-height: 0.92;
+            text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+            animation: nameIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+        }
+
+        .name-last {
+            font-size: clamp(40px, 5.8vw, 68px);
+            font-weight: 900;
+            letter-spacing: 9px;
+            color: transparent;
+            -webkit-text-stroke: 2.5px var(--gold);
+            line-height: 1.08;
+            animation: nameIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.46s both;
+        }
+
+        @keyframes nameIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Shimmer scan on ABANOUB every 6s */
+        .name-first {
+            background: linear-gradient(90deg, #fff 40%, rgba(0, 212, 255, 0.85) 50%, #fff 60%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: nameIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both,
+                shimmer 6s linear 2s infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            70% {
+                background-position: 200% center;
+            }
+
+            85% {
+                background-position: -50% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .mobile-hero {
+            display: none;
+        }
+
+        /* ─── TRAVELING NEON BORDER ─── */
+        .neon-border {
+            display: none;
+            position: absolute;
+            inset: -3px;
+            width: calc(100% + 6px);
+            height: calc(100% + 6px);
+            margin: 0;
+            /* ← إصلاح: يلغي margin-bottom الجاي من .neon-zig */
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .img-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--cyan) 50%, transparent 100%);
+            z-index: 3;
+            opacity: 0.6;
+        }
+
+        /* ═══════════════ FORM PANEL ═══════════════ */
+        .form-panel {
+            flex: 1 1 0;
+            min-width: 0;
+            height: 100%;
+            overflow: visible;
+            background: var(--card);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 0;
+            direction: rtl;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .form-panel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .form-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            border-radius: 0 0 4px 4px;
+            opacity: 0.55;
+        }
+
+        /* ─── BRAND ─── */
+        .brand {
+            width: 100%;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .brand img {
+            max-width: 170px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+
+        /* ─── HEADING ─── */
+        .form-heading {
+            width: 100%;
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .form-sub {
+            width: 100%;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 22px;
+            line-height: 1.7;
+            padding: 0 20px;
+        }
+
+        .form-divider {
+            width: 85%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            margin-bottom: 22px;
+        }
+
+        /* ─── INPUT ─── */
+        .field {
+            width: 85%;
+            margin-bottom: 12px;
+        }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .field-label svg {
+            flex-shrink: 0;
+            fill: currentColor;
+        }
+
+        .field input {
+            width: 100%;
+            min-height: 46px;
+            padding: 11px 14px;
+            background: var(--input-bg);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: right;
+            direction: rtl;
+            outline: none;
+            transition: box-shadow .25s, border-color .25s;
+        }
+
+        .field input::placeholder {
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .field input:focus {
+            border-color: rgba(0, 212, 255, .35);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, .35);
+        }
+
+        .field input:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+        }
+
+        /* ─── FORGOT ─── */
+        .forgot {
+            width: 85%;
+            text-align: right;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 4px 0 20px;
+            line-height: 1.7;
+        }
+
+        .forgot a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            margin-right: 4px;
+        }
+
+        .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        /* ─── BUTTON ─── */
+        .btn-login {
+            width: 85%;
+            min-height: 46px;
+            padding: 11px 14px;
+            border: none;
+            border-radius: 7px;
+            background: var(--red);
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all .28s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-login:hover {
+            background: #d63333;
+            transform: translateY(-1px);
+        }
+
+        .btn-login:active {
+            transform: scale(.98);
+        }
+
+        .btn-login:disabled {
+            cursor: not-allowed;
+            opacity: .85;
+        }
+
+        .btn-login:focus-visible,
+        .forgot a:focus-visible,
+        .field input:focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 2px;
+        }
+
+        /* ─── SPINNER ─── */
+        .btn-login .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, .35);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        .btn-login.loading .spinner {
+            display: block;
+        }
+
+        /* ─── MESSAGES ─── */
+        .msg {
+            width: 85%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 14px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .msg.error {
+            background: rgba(240, 62, 62, .12);
+            border: 1px solid rgba(240, 62, 62, .30);
+            color: #ff6b6b;
+        }
+
+        .msg.success {
+            background: rgba(34, 197, 94, .10);
+            border: 1px solid rgba(34, 197, 94, .25);
+            color: #4ade80;
+        }
+
+        .msg.show {
+            display: block;
+        }
+
+        /* ─── TABLET ─── */
+        @media (max-width: 900px) {
+
+            .page {
+                padding: 16px;
+            }
+
+            .container {
+                gap: 14px;
+            }
+
+            .field,
+            .forgot,
+            .btn-login,
+            .msg {
+                width: 82%;
+            }
+
+            .name-first,
+            .name-last {
+                font-size: clamp(32px, 5vw, 52px);
+            }
+
+            .neon-border {
+                display: none;
+            }
+
+            .section-orb {
+                filter: blur(55px);
+            }
+        }
+
+        /* ─── MOBILE ─── */
+        @media (max-width: 768px) {
+
+            html,
+            body {
+                overflow: auto;
+                height: auto;
+            }
+
+            .page {
+                height: auto;
+                min-height: 100dvh;
+                padding: 24px 0;
+                align-items: center;
+            }
+
+            .section-orb {
+                filter: blur(40px);
+                opacity: 0.28;
+            }
+
+            .section-orb-one {
+                width: 260px;
+                height: 260px;
+                top: -60px;
+                left: -60px;
+            }
+
+            .section-orb-two {
+                width: 280px;
+                height: 280px;
+                bottom: -80px;
+                right: -70px;
+            }
+
+            .container {
+                max-height: none;
+                height: auto;
+                flex-direction: column;
+                gap: 0;
+                max-width: 560px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+                padding: 0 18px 32px;
+            }
+
+            .img-panel {
+                position: fixed;
+                inset: 0;
+                width: 100%;
+                height: 100dvh;
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+                z-index: 0;
+            }
+
+            .img-panel::before {
+                display: none;
+            }
+
+            .img-placeholder {
+                height: 100%;
+                background-position: center 22%;
+                filter: blur(1px) brightness(0.82);
+                transform: scale(1.08);
+            }
+
+            .img-overlay--desktop {
+                display: none;
+            }
+
+            .mobile-hero {
+                display: block;
+                position: relative;
+                z-index: 1;
+                padding: 0 0 18px;
+            }
+
+            .name-block--mobile {
+                align-items: center;
+                text-align: center;
+                padding: 0 18px;
+            }
+
+            .name-block {
+                padding: 0 18px;
+            }
+
+            .name-mr {
+                font-size: 11px;
+                letter-spacing: 6px;
+            }
+
+            .name-first,
+            .name-last {
+                font-size: 36px;
+            }
+
+            .name-last {
+                -webkit-text-stroke-width: 2px;
+                letter-spacing: 7px;
+            }
+
+            .form-panel {
+                width: 100%;
+                height: auto;
+                flex: unset;
+                overflow: visible;
+                padding: 28px 0 30px;
+                margin-top: 8px;
+                background: rgba(17, 24, 39, 0.55);
+                -webkit-backdrop-filter: blur(18px) saturate(140%);
+                backdrop-filter: blur(18px) saturate(140%);
+                border: 1px solid rgba(255, 255, 255, 0.10);
+                box-shadow: 0 16px 46px rgba(0, 0, 0, 0.5);
+            }
+
+            /* الـ neon المتحرك يظهر على الموبايل فقط */
+            .neon-border {
+                display: block;
+                inset: -1px;
+                width: calc(100% + 2px);
+                height: calc(100% + 2px);
+                margin: 0;
+            }
+
+            .field,
+            .forgot,
+            .btn-login,
+            .msg {
+                width: 88%;
+            }
+
+            .field input,
+            .btn-login {
+                min-height: 48px;
+            }
+
+            .field input {
+                background: rgba(53, 57, 69, 0.85);
+            }
+        }
+
+        /* ─── SMALL MOBILE ─── */
+        @media (max-width: 480px) {
+
+            .name-first,
+            .name-last {
+                font-size: 30px;
+            }
+
+            .form-panel {
+                padding: 26px 0;
+            }
+
+            .brand img {
+                max-width: 130px;
+            }
+
+            .form-heading {
+                font-size: 16px;
+            }
+
+            .form-sub {
+                font-size: 11px;
+                margin-bottom: 18px;
+            }
+
+            .field,
+            .forgot,
+            .btn-login,
+            .msg {
+                width: 90%;
+            }
+
+            .forgot {
+                font-size: 10px;
+                margin-bottom: 16px;
+            }
+
+            .btn-login {
+                font-size: 13px;
+            }
+
+            .msg {
+                font-size: 10px;
+                margin-top: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+
+            .name-first,
+            .name-last {
+                font-size: 26px;
+            }
+
+            .form-panel {
+                padding: 22px 0;
+            }
+
+            .brand img {
+                max-width: 115px;
+            }
+
+            .form-heading {
+                font-size: 15px;
+            }
+
+            .form-sub {
+                font-size: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .section-orb {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="section-orb section-orb-one" aria-hidden="true"></div>
+        <div class="section-orb section-orb-two" aria-hidden="true"></div>
+
+        <div class="container">
+
+            <!-- ══════════ IMAGE PANEL ══════════ -->
+            <div class="img-panel">
+                <div class="img-placeholder"></div>
+
+                <div class="img-overlay img-overlay--desktop">
+
+                    <canvas class="neon-zig" id="neonZigDesktop"></canvas>
+
+                    <div class="name-block">
+                        <span class="name-mr">M R .</span>
+                        <span class="name-first">ABANOUB</span>
+                        <span class="name-last">ANTER</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Mobile only -->
+            <div class="mobile-hero">
+                <div class="name-block name-block--mobile">
+                    <span class="name-mr">M R .</span>
+                    <span class="name-first">ABANOUB</span>
+                    <span class="name-last">ANTER</span>
+                </div>
+            </div>
+
+            <!-- ══════════ FORM PANEL ══════════ -->
+            <div class="form-panel">
+
+                <!-- يعمل فقط على الموبايل -->
+                <canvas class="neon-zig neon-border" id="neonBorder"></canvas>
+
+                <div class="brand">
+                    <img src="لوجو الاسم.png" alt="مستر أبانوب عنتر" />
+                </div>
+
+                <h1 class="form-heading">
+                    أهلا تاني! جاهز للمذاكرة؟
+                </h1>
+
+                <p class="form-sub">
+                    ادخل علي حسابك بإدخال رقم الكود الخاص بك.
+                </p>
+
+                <div class="form-divider"></div>
+
+                <div class="field">
+
+                    <label class="field-label" for="codeInput">
+
+                        <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C9.243 2 7 4.243 7 7V10H6C4.897 10 4 10.897 4 12V20
+                                C4 21.103 4.897 22 6 22H18C19.103 22 20 21.103 20 20V12
+                                C20 10.897 19.103 10 18 10H17V7C17 4.243 14.757 2 12 2Z
+                                M9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7V10H9V7Z
+                                M12 18C10.897 18 10 17.103 10 16C10 14.897 10 14 12 14
+                                C13.103 14 14 14.897 14 16C14 17.103 13.103 18 12 18Z" />
+                        </svg>
+
+                        أدخل الكود
+
+                    </label>
+
+                    <input id="codeInput" type="text" inputmode="numeric" placeholder="اكتب الكود هنا"
+                        autocomplete="off" spellcheck="false" maxlength="50" />
+
+                </div>
+
+                <p class="forgot">
+                    مش لاقي الكود بتاعك ؟
+                    <a href="#" id="forgotLink">اضغط هنا</a>
+                </p>
+
+                <button class="btn-login" id="loginBtn" type="button">
+                    <span class="btn-text">تسجيل الدخول</span>
+                    <span class="spinner"></span>
+                </button>
+
+                <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         NEON ZIGZAG ANIMATION  (النسخة المُصلحة)
+    ══════════════════════════════════════════ -->
+    <script>
+
+        document.querySelectorAll('canvas.neon-zig').forEach(function (cv) {
+
+            /* neon-border لا يبدأ إلا على الموبايل */
+            if (
+                cv.classList.contains('neon-border') &&
+                !window.matchMedia('(max-width: 768px)').matches
+            ) {
+                return;
+            }
+
+            initNeonZig(cv);
+        });
+
+
+        function initNeonZig(cv) {
+
+            var ctx = cv.getContext('2d');
+
+            var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+            var isBorder = cv.classList.contains('neon-border');
+
+            var isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+            var SEG_W = 55;
+            var AMP = 15;
+            var CORNER_R = 14;
+
+            var pts = [];
+            var cum = [];
+
+
+            function setup() {
+
+                DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+                /* الحجم الفعلي للـ canvas بالبكسل الحقيقي */
+                cv.width = cv.offsetWidth * DPR;
+                cv.height = cv.offsetHeight * DPR;
+
+                /* بعد كده كل الرسم بوحدات CSS pixels */
+                ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+                build();
+            }
+
+
+            function build() {
+
+                /* ✅ إصلاح: offsetWidth/offsetHeight أصلاً CSS pixels — من غير قسمة على DPR */
+                var W = cv.offsetWidth;
+                var H = cv.offsetHeight;
+
+                pts = isBorder
+                    ? buildRoundedRectPoints(W, H)
+                    : buildZigzagPoints(W, H);
+
+                cum = [0];
+
+                for (var k = 1; k < pts.length; k++) {
+
+                    var dx = pts[k].x - pts[k - 1].x;
+                    var dy = pts[k].y - pts[k - 1].y;
+
+                    cum.push(cum[k - 1] + Math.sqrt(dx * dx + dy * dy));
+                }
+            }
+
+
+            function buildZigzagPoints(W, H) {
+
+                var CY = H / 2;
+                var out = [];
+                var i = 0;
+
+                while (i * SEG_W <= W + SEG_W * 2) {
+
+                    out.push({
+                        x: W - i * SEG_W,
+                        y: i % 2 === 0 ? CY - AMP : CY + AMP
+                    });
+
+                    i++;
+                }
+
+                return out;
+            }
+
+
+            function buildRoundedRectPoints(W, H) {
+
+                var r = Math.max(2, Math.min(CORNER_R, W / 2, H / 2));
+                var segs = 10;
+                var out = [];
+
+                function arc(cx, cy, a0, a1) {
+
+                    for (var i = 0; i <= segs; i++) {
+
+                        var a = a0 + (a1 - a0) * (i / segs);
+
+                        out.push({
+                            x: cx + r * Math.cos(a),
+                            y: cy + r * Math.sin(a)
+                        });
+                    }
+                }
+
+                out.push({ x: r, y: 0 });
+                out.push({ x: W - r, y: 0 });
+
+                arc(W - r, r, -Math.PI / 2, 0);
+
+                out.push({ x: W, y: H - r });
+
+                arc(W - r, H - r, 0, Math.PI / 2);
+
+                out.push({ x: r, y: H });
+
+                arc(r, H - r, Math.PI / 2, Math.PI);
+
+                out.push({ x: 0, y: r });
+
+                arc(r, r, Math.PI, Math.PI * 1.5);
+
+                out.push({ x: r, y: 0 });
+
+                return out;
+            }
+
+
+            function ptAt(t) {
+
+                var d = t * cum[cum.length - 1];
+
+                for (var i = 1; i < cum.length; i++) {
+
+                    if (d <= cum[i]) {
+
+                        var seg = cum[i] - cum[i - 1];
+                        var r = seg === 0 ? 0 : (d - cum[i - 1]) / seg;
+
+                        return {
+                            x: pts[i - 1].x + r * (pts[i].x - pts[i - 1].x),
+                            y: pts[i - 1].y + r * (pts[i].y - pts[i - 1].y)
+                        };
+                    }
+                }
+
+                return pts[pts.length - 1];
+            }
+
+
+            function fullPath() {
+
+                ctx.beginPath();
+                ctx.moveTo(pts[0].x, pts[0].y);
+
+                for (var i = 1; i < pts.length; i++) {
+                    ctx.lineTo(pts[i].x, pts[i].y);
+                }
+
+                if (isBorder) {
+                    ctx.closePath();
+                }
+            }
+
+
+            function drawArcSegment(t0, t1) {
+
+                var steps = Math.max(3, Math.round((t1 - t0) * 140));
+
+                for (var i = 0; i <= steps; i++) {
+
+                    var t = t0 + (t1 - t0) * (i / steps);
+                    var p = ptAt(t);
+
+                    i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+                }
+            }
+
+
+            function trailPath(rawT0, t1) {
+
+                ctx.beginPath();
+
+                if (isBorder && rawT0 < 0) {
+
+                    drawArcSegment(1 + rawT0, 1);
+                    drawArcSegment(0, t1);
+
+                } else {
+
+                    drawArcSegment(Math.max(0, rawT0), t1);
+                }
+            }
+
+
+            function stroke(color, lw, blur, shadow) {
+
+                ctx.strokeStyle = color;
+                ctx.lineWidth = lw;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.shadowBlur = blur;
+                ctx.shadowColor = shadow || '#00d4ff';
+                ctx.stroke();
+            }
+
+
+            var CYCLE = isBorder ? 4200 : 3400;
+            var TRAIL = isBorder ? 0.30 : 0.20;
+
+            var rafId;
+
+
+            function frame(ts) {
+
+                /* لو الـ canvas مخفي، بلاش نرسم بس كمّل متابعة الفريمات */
+                if (cv.offsetWidth === 0 || cv.offsetHeight === 0) {
+                    rafId = requestAnimationFrame(frame);
+                    return;
+                }
+
+                /* ✅ إصلاح: من غير قسمة على DPR */
+                var W = cv.offsetWidth;
+                var H = cv.offsetHeight;
+
+                var t = (ts % CYCLE) / CYCLE;
+
+                ctx.clearRect(0, 0, W, H);
+
+                ctx.save();
+
+                /* base dim outline */
+                fullPath();
+
+                if (isBorder && isMobile) {
+                    stroke('rgba(0,212,255,0.08)', 1, 0);
+                } else {
+                    stroke('rgba(0,212,255,0.08)', 1.1, 0);
+                }
+
+                if (t > 0.004 || isBorder) {
+
+                    var t0raw = t - TRAIL;
+
+                    if (isBorder && isMobile) {
+
+                        /* MOBILE ONLY */
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(0,200,255,0.09)', 6, 10);
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(0,220,255,0.28)', 2.5, 5);
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(0,235,255,0.78)', 1.2, 2);
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(200,248,255,0.92)', 0.8, 1);
+
+                    } else {
+
+                        /* DESKTOP */
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(0,200,255,0.13)', 9, 18);
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(0,220,255,0.38)', 3.5, 10);
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(0,235,255,0.85)', 1.4, 4);
+
+                        trailPath(t0raw, t);
+                        stroke('rgba(200,248,255,0.95)', 0.8, 1.5);
+                    }
+                }
+
+                /* SPARK */
+
+                var sp = ptAt(t);
+
+                var sparkRadius = isBorder && isMobile ? 15 : 19;
+
+                var g = ctx.createRadialGradient(
+                    sp.x, sp.y, 0,
+                    sp.x, sp.y, sparkRadius
+                );
+
+                g.addColorStop(0, 'rgba(255,255,255,1)');
+                g.addColorStop(0.18, 'rgba(160,240,255,0.85)');
+                g.addColorStop(0.55, 'rgba(0,200,255,0.28)');
+                g.addColorStop(1, 'rgba(0,200,255,0)');
+
+                ctx.shadowBlur = 0;
+
+                ctx.beginPath();
+                ctx.arc(sp.x, sp.y, isBorder && isMobile ? 1.6 : 2, 0, Math.PI * 2);
+                ctx.fillStyle = g;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(sp.x, sp.y, isBorder && isMobile ? 1.8 : 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.shadowBlur = isBorder && isMobile ? 7 : 10;
+                ctx.shadowColor = '#fff';
+                ctx.fill();
+
+                ctx.restore();
+
+                rafId = requestAnimationFrame(frame);
+            }
+
+
+            function init() {
+
+                isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+                setup();
+
+                cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(frame);
+            }
+
+
+            init();
+
+
+            var rto;
+
+            window.addEventListener('resize', function () {
+                clearTimeout(rto);
+                rto = setTimeout(init, 150);
+            });
+
+
+            document.addEventListener('visibilitychange', function () {
+
+                cancelAnimationFrame(rafId);
+
+                if (!document.hidden) {
+                    rafId = requestAnimationFrame(frame);
+                }
+            });
+
+        }
+
+    </script>
+
+
+    <script src="codes.js"></script>
+    <script>
+        (function () {
+            var codeInput = document.getElementById('codeInput');
+            var loginBtn = document.getElementById('loginBtn');
+            var msgEl = document.getElementById('msg');
+            var forgotLink = document.getElementById('forgotLink');
+            function showMsg(t, type) { msgEl.textContent = t; msgEl.className = 'msg ' + (type || 'error') + ' show'; }
+            function clearMsg() { msgEl.textContent = ''; msgEl.className = 'msg'; }
+
+            // لو مسجل دخول قبل كده يروح على كورساته على طول
+            var saved = sessionStorage.getItem('userCode');
+            if (saved && window.CODES && window.CODES[saved]) { location.replace('courses.html'); return; }
+
+            function attemptLogin(code) {
+                clearMsg();
+                var data = window.CODES && window.CODES[code];
+                if (!data) { showMsg('❌ الكود غير صحيح. تأكد من الكود وحاول مرة أخرى.'); return; }
+                if (data.active === false) { showMsg('⛔ هذا الكود موقوف. تواصل مع السكرتارية.'); return; }
+                sessionStorage.setItem('userCode', code);
+                sessionStorage.setItem('userName', data.name || '');
+                sessionStorage.setItem('userGrade', data.grade || '');
+                sessionStorage.setItem('userGradeId', data.gradeId || '');
+                showMsg('✅ تم تسجيل الدخول بنجاح! جاري التحويل...', 'success');
+                loginBtn.disabled = true; codeInput.disabled = true;
+                setTimeout(function () { location.href = 'courses.html'; }, 800);
+            }
+            loginBtn.addEventListener('click', function () {
+                var c = codeInput.value.trim();
+                if (!c) { showMsg('من فضلك أدخل الكود أولاً.'); codeInput.focus(); return; }
+                attemptLogin(c);
+            });
+            codeInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') loginBtn.click(); });
+            codeInput.addEventListener('input', clearMsg);
+            forgotLink.addEventListener('click', function (e) { e.preventDefault(); alert('تواصل مع مستر أبانوب للحصول على كودك.'); });
+        })();
+    </script>
+</body>
+
+</html>

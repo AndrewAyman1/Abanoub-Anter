@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b13">
+  <title>كورساتي — منصة مستر أبانوب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070b13;
+      --panel: #111827;
+      --panel2: #0c1320;
+      --gold: #f1cc19;
+      --red: #e53945;
+      --cyan: #00d4ff;
+      --text: #fff;
+      --muted: #9aa4b2;
+      --line: rgba(255, 255, 255, .09);
+      --shadow: 0 18px 45px rgba(0, 0, 0, .28);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: radial-gradient(circle at 10% 0%, rgba(0, 212, 255, .09), transparent 28%), radial-gradient(circle at 90% 100%, rgba(241, 204, 25, .07), transparent 30%), var(--bg);
+      color: var(--text);
+      min-height: 100vh
+    }
+
+    button,
+    a {
+      font: inherit
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    .page {
+      width: min(1240px, 92%);
+      margin: auto;
+      padding: 28px 0 60px
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      padding: 13px 16px;
+      background: rgba(17, 24, 39, .78);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      border-radius: 18px;
+      box-shadow: var(--shadow)
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900
+    }
+
+    .brand-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--gold));
+      box-shadow: 0 0 18px rgba(0, 212, 255, .55)
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .05);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .25s
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(241, 204, 25, .4)
+    }
+
+    .btn-danger {
+      background: rgba(229, 57, 69, .14);
+      border-color: rgba(229, 57, 69, .3)
+    }
+
+    .hero {
+      margin-top: 24px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, .92), rgba(12, 19, 32, .88));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 7px
+    }
+
+    .hero h1 {
+      font-size: clamp(25px, 4vw, 40px);
+      line-height: 1.25
+    }
+
+    .hero h1 span {
+      color: var(--gold)
+    }
+
+    .hero p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px
+    }
+
+    .pill {
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .045);
+      font-size: 12px;
+      color: #e9edf3
+    }
+
+    .pill strong {
+      color: var(--gold)
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin: 30px 0 18px;
+      flex-wrap: wrap
+    }
+
+    .toolbar h2 {
+      font-size: 24px
+    }
+
+    .toolbar p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .filter {
+      padding: 9px 14px;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .04);
+      color: #cfd5dd;
+      cursor: pointer
+    }
+
+    .filter.active {
+      background: rgba(241, 204, 25, .12);
+      border-color: rgba(241, 204, 25, .4);
+      color: var(--gold)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(17, 24, 39, .95), rgba(12, 19, 32, .96));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 390px
+    }
+
+    .cover {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #162133, #0c1320);
+      position: relative;
+      overflow: hidden
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .cover-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      font-size: 58px;
+      background: radial-gradient(circle at 40% 35%, rgba(0, 212, 255, .18), transparent 35%), linear-gradient(135deg, #182337, #0a101a)
+    }
+
+    .tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(7, 11, 19, .72);
+      border: 1px solid rgba(255, 255, 255, .12);
+      font-size: 11px;
+      font-weight: 700;
+      backdrop-filter: blur(8px)
+    }
+
+    .body {
+      padding: 18px;
+      display: flex;
+      flex: 1;
+      flex-direction: column
+    }
+
+    .body h3 {
+      font-size: 20px;
+      line-height: 1.5
+    }
+
+    .desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-top: 7px;
+      min-height: 44px
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: #c9d0d9
+    }
+
+    .progress {
+      height: 8px;
+      background: rgba(255, 255, 255, .07);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+      border-radius: inherit
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 16px
+    }
+
+    .enter {
+      flex: 1;
+      text-align: center;
+      background: linear-gradient(135deg, var(--gold), #d7a900);
+      color: #191300;
+      font-weight: 900;
+      padding: 11px 14px;
+      border-radius: 12px;
+      transition: .25s
+    }
+
+    .enter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(241, 204, 25, .18)
+    }
+
+    .state {
+      padding: 45px 20px;
+      text-align: center;
+      border: 1px dashed rgba(255, 255, 255, .14);
+      border-radius: 22px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, .02);
+      grid-column: 1/-1
+    }
+
+    .state strong {
+      display: block;
+      color: #fff;
+      font-size: 17px;
+      margin-bottom: 7px
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, .15);
+      border-top-color: var(--cyan);
+      margin: 0 auto 15px;
+      animation: spin .8s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translate(-50%, 20px);
+      background: #111827;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 12px 16px;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s;
+      z-index: 50
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0)
+    }
+
+    @media(max-width:1050px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+    }
+
+    @media(max-width:700px) {
+      .page {
+        width: min(94%, 560px);
+        padding-top: 16px
+      }
+
+      .topbar {
+        position: static
+      }
+
+      .hero {
+        padding: 22px
+      }
+
+      .toolbar {
+        align-items: flex-start
+      }
+
+      .toolbar h2 {
+        font-size: 21px
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .top-actions .btn:first-child {
+        display: none
+      }
+
+      .card {
+        min-height: 0
+      }
+
+      .cover {
+        aspect-ratio: 15/9
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html"><span class="brand-dot"></span><span>منصة مستر أبانوب</span></a>
+      <div class="top-actions"><a class="btn" href="index.html">الرئيسية</a><button id="logoutBtn"
+          class="btn btn-danger">تسجيل الخروج</button></div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">لوحة الطالب</div>
+      <h1>أهلاً يا <span id="studentName">بطل</span> 👋</h1>
+      <p>دي الكورسات المتاحة ليك حسب الصف والصلاحيات المرتبطة بالكود بتاعك.</p>
+      <div class="hero-meta">
+        <div class="pill">الصف: <strong id="studentGrade">جارٍ التحميل...</strong></div>
+        <div class="pill">الكود: <strong id="studentCode">••••••••••</strong></div>
+        <div class="pill">عدد الكورسات: <strong id="courseCount">0</strong></div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div>
+        <h2>كورساتي</h2>
+        <p id="helperText">اختار الكورس وابدأ المذاكرة.</p>
+      </div>
+      <div class="filters"><button class="filter active" data-filter="all">الكل</button><button class="filter"
+          data-filter="english">🇬🇧 إنجليزي</button><button class="filter" data-filter="history">📜 تاريخ</button>
+      </div>
+    </section>
+
+    <main id="coursesGrid" class="grid">
+      <div class="state">
+        <div class="spinner"></div><strong>جارٍ تحميل الكورسات</strong><span>بنجهز المحتوى المناسب ليك...</span>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="codes.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getAuth, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    const app = initializeApp({
+      apiKey: "AIzaSyChQZUYoobeiLwhd3ZTVczffYw7CauLHoc",
+      authDomain: "abanoub-eed6d.firebaseapp.com",
+      projectId: "abanoub-eed6d",
+      storageBucket: "abanoub-eed6d.firebasestorage.app",
+      messagingSenderId: "881847426580",
+      appId: "1:881847426580:web:0ff33d82de7945682ad101"
+    });
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const $ = (s) => document.querySelector(s);
+    const grid = $('#coursesGrid');
+    let courses = [];
+    let activeFilter = 'all';
+
+    function toast(msg) {
+      const el = $('#toast'); el.textContent = msg; el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2600);
+    }
+    function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    function subjectOf(c) {
+      const s = String(c.subject || c.subjectId || '').toLowerCase();
+      if (s.includes('history') || s.includes('تاريخ')) return 'history';
+      return 'english';
+    }
+    function subjectLabel(c) { return subjectOf(c) === 'history' ? '📜 تاريخ' : '🇬🇧 إنجليزي'; }
+
+    function render() {
+      const list = activeFilter === 'all' ? courses : courses.filter(c => subjectOf(c) === activeFilter);
+      $('#courseCount').textContent = courses.length;
+      if (!list.length) {
+        grid.innerHTML = '<div class="state"><strong>مفيش كورسات متاحة دلوقتي</strong><span>لو شايف إن المفروض يظهر لك كورس، كلم المدرس أو الدعم.</span></div>';
+        return;
+      }
+      grid.innerHTML = list.map(c => {
+        const cover = c.imageUrl ? `<img src="${esc(c.imageUrl)}" alt="${esc(c.title || 'كورس')}" loading="lazy">` : `<div class="cover-fallback">${subjectOf(c) === 'history' ? '📜' : '🇬🇧'}</div>`;
+        const progress = Math.max(0, Math.min(100, Number(c.progressPct || 0)));
+        const lessons = Number(c.lessonCount ?? (c.lessons || []).length ?? 0);
+        return `<article class="card">
+          <div class="cover">${cover}<span class="tag">${subjectLabel(c)}</span></div>
+          <div class="body">
+            <h3>${esc(c.title || c.name || 'كورس')}</h3>
+            <p class="desc">${esc(c.description || 'شرح مرتب، محاضرات وفيديوهات تساعدك تذاكر وتراجع بسهولة.')}</p>
+            <div class="meta"><span>${lessons ? lessons + ' محاضرة' : 'محاضرات متاحة'}</span><span>التقدم ${progress}%</span></div>
+            <div class="progress"><span style="width:${progress}%"></span></div>
+            <div class="bottom"><a class="enter" href="course.html?id=${encodeURIComponent(c.id)}">دخول الكورس</a></div>
+          </div>
+        </article>`;
+      }).join('');
+    }
+
+    async function boot() {
+      const code = sessionStorage.getItem('userCode');
+      const student = code && window.CODES && window.CODES[code];
+      if (!student || student.active === false) { sessionStorage.clear(); location.replace('login.html'); return; }
+      $('#studentName').textContent = student.name || 'بطل';
+      $('#studentGrade').textContent = student.grade || 'غير محدد';
+      $('#studentCode').textContent = String(code).replace(/\d(?=\d{2})/g, '•');
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const snap = await getDocs(query(collection(db, 'courses'),
+          where('gradeId', '==', student.gradeId), where('isPublished', '==', true)));
+        courses = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (Number(a.order || 0) - Number(b.order || 0)) || String(a.title || '').localeCompare(String(b.title || ''), 'ar'));
+        render();
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = '<div class="state"><strong>حصل خطأ أثناء تحميل الكورسات</strong><span>تأكد من الإنترنت وحاول مرة أخرى.</span></div>';
+      }
+    }
+    document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    }));
+    $('#logoutBtn').addEventListener('click', async () => {
+      try { await signOut(auth); } finally { sessionStorage.clear(); location.replace('login.html'); }
+    });
+    boot();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الكورس — منصة مستر أبانوب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #080c14;
+      --card: #111827;
+      --input: #1f2633;
+      --gold: #f1cc19;
+      --muted: #8b92a5
+    }
+
+    body {
+      background: var(--bg);
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      min-height: 100vh
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px
+    }
+
+    a.back {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 6px
+    }
+
+    p.d {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 18px
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 18px;
+      align-items: start
+    }
+
+    @media(max-width:850px) {
+      .layout {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .player {
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted)
+    }
+
+    .player iframe,
+    .player video {
+      width: 100%;
+      height: 100%;
+      border: 0
+    }
+
+    .list {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 10px;
+      max-height: 70vh;
+      overflow: auto
+    }
+
+    .les {
+      display: block;
+      width: 100%;
+      text-align: right;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px
+    }
+
+    .les:hover {
+      background: var(--input)
+    }
+
+    .les.on {
+      background: var(--input);
+      color: var(--gold);
+      font-weight: 700
+    }
+
+    .state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted)
+    }
+
+    .ext {
+      display: inline-block;
+      background: var(--gold);
+      color: #111;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 800
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top"><a class="back" href="courses.html">← كورساتي</a></div>
+    <div id="root">
+      <div class="state">جارٍ التحميل...</div>
+    </div>
+  </div>
+  <script src="codes.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    const app = initializeApp({
+      apiKey: "AIzaSyChQZUYoobeiLwhd3ZTVczffYw7CauLHoc",
+      authDomain: "abanoub-eed6d.firebaseapp.com",
+      projectId: "abanoub-eed6d",
+      storageBucket: "abanoub-eed6d.firebasestorage.app",
+      messagingSenderId: "881847426580",
+      appId: "1:881847426580:web:0ff33d82de7945682ad101"
+    });
+    const db = getFirestore(app), auth = getAuth(app);
+    const root = document.getElementById('root');
+    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const msg = t => root.innerHTML = `<div class="state">${esc(t)}</div>`;
+
+    function embedOf(url) {
+      try {
+        const u = new URL(url);
+        let id = null;
+        if (u.hostname === 'youtu.be') id = u.pathname.slice(1);
+        else if (u.hostname.endsWith('youtube.com')) id = u.searchParams.get('v') || (u.pathname.match(/\/(embed|shorts)\/([^/?]+)/) || [])[2];
+        if (id) return `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?rel=0" allowfullscreen allow="fullscreen; picture-in-picture"></iframe>`;
+        if (/\.(mp4|webm)(\?|$)/i.test(url)) return `<video src="${esc(url)}" controls controlsList="nodownload"></video>`;
+        if (/^https?:$/.test(u.protocol)) return `<a class="ext" href="${esc(url)}" target="_blank" rel="noopener">فتح الفيديو</a>`;
+      } catch (e) { }
+      return 'رابط غير صالح';
+    }
+
+    (async function () {
+      const code = sessionStorage.getItem('userCode');
+      const student = code && window.CODES && window.CODES[code];
+      if (!student || student.active === false) { sessionStorage.clear(); location.replace('login.html'); return; }
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) return msg('كورس غير موجود.');
+      try {
+        if (!auth.currentUser) await signInAnonymously(auth);
+        const snap = await getDoc(doc(db, 'courses', id));
+        if (!snap.exists()) return msg('الكورس غير موجود.');
+        const c = snap.data();
+        if (c.isPublished === false || c.gradeId !== student.gradeId) return msg('الكورس ده مش متاح لصفك.');
+        const ls = c.lessons || [];
+        root.innerHTML = `<h1>${esc(c.title)}</h1><p class="d">${esc(c.description || '')}</p>
+      <div class="layout"><div class="player" id="player">${ls.length ? 'اختار محاضرة من القائمة' : 'مفيش محاضرات لسه.'}</div>
+      <div class="list">${ls.map((l, i) => `<button class="les" data-i="${i}">${i + 1}. ${esc(l.title || 'محاضرة')}</button>`).join('')}</div></div>`;
+        root.querySelector('.list').addEventListener('click', e => {
+          const b = e.target.closest('.les'); if (!b) return;
+          root.querySelectorAll('.les').forEach(x => x.classList.remove('on')); b.classList.add('on');
+          document.getElementById('player').innerHTML = embedOf(ls[b.dataset.i].url || '');
+        });
+      } catch (e) { console.error(e); msg('حصل خطأ أثناء تحميل الكورس.'); }
+    })();
+  </script>
+</body>
+
+</html>
